@@ -12,13 +12,62 @@ Currently we offer the following features:
 
 ## Usage
 
-Download one of the releases from [GitHub](https://github.com/volkerl/nowplaying).
-Unzip it and double-click the jar-file.
+Download one of the [releases from GitHub](https://github.com/volkerl/nowplaying/releases).
+Make sure to download the jar file unless you want to build from source.
 
-Note that the jar-file stores its current configuration to a file called `nowplaying.properties` right next to it.
+Now just double-click the jar file and the application will start.
+
+### Configure Last.fm
+
+The first thing you have to configure is the Last.fm information.
+Just fill in your Last.fm username (not case sensitive).
+
+The next field determines how often we will ask Last.fm to provide us with the current track.
+By default we query the Last.fm API every 5 seconds.
+Please make sure you do not lower it too much, we wouldn't want to spam them.
+
+For now just ignore the "advanced configuration" options.
+
+### Write a template
+
+The next part is where you specify how your song information should be printed in the text file.
+You specify a template in which the application will insert the actual information of the current playing song.
+You can write the template in the big white text area, and you can see what it would look like in the yellow preview field.
+The default template should make it pretty obvious how it works.
+
+To get actual track information inserted in your template, you can use tags.
+A tag is simply the name of the information you want to have inserted, wrapped in curly braces.
+For example `{name}` is the name of the current song.
+The tags that are available are listed in the list on the right of the text area.
+Recognized tags will be highlighted so you know that you spelled it correctly.
+
+Next we have the message that will be written to the text file if you are not listening to any songs
+(or when we fail to retrieve the information).
+You can leave it blank if you just want the file to be empty in that case.
+
+### Pick an output file
+
+Now we can pick an output file where the current song will be written to.
+You can either type it by hand or use the browse button.
+The browse window can be very limited and does not allow you to make a new file.
+It should allow you to at least select a folder.
+Then just manually append the name of the file to the text field.
+
+### Start listening
+
+Now that everything is set up the way you want it to be you can start listening.
+Just press the big red button and it should turn to green.
+As long as the button is green your track info should be automatically updated and written to the output file you specified.
+To stop the updating process, just click the green button and it will turn off again.
+
+### Saving
+You can save your current settings by pressing the save button.
+Note that NowPlaying stores these configuration settings in a file called `nowplaying.properties` right next to itself (the `NowPlaying.jar` file).
 
 Actually, it stores the properties file where the JVM running the jar file was started.
 When opening the application by double-clicking this will be the directory where the jar file is located.
+
+Either way, as long as you start the application the same way, it will be able to find the saved settings.
 
 ## Building
 
