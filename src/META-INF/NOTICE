@@ -11,6 +11,5 @@ NowPlaying is hosted on GitHub at http://github.com/volkerl/nowplaying.
 # License
 NowPlaying is licensed under the GNU General Public License, included as LICENSE.
 
-# Libraries
-It uses libraries by The Apache Foundation, licensed under the Apache License 2.0, a copy of which should be provided with this program.
-It also uses libraries from FasterXML, also licensed under the Apache License 2.0.
+# Third Party Licenses
+The licenses of third party software included in this application can be found in THIRD_PARTY.
