@@ -1,0 +1,16 @@
+NowPlaying
+
+Copyright 2013 Volker Lanting
+
+# NowPlaying
+NowPlaying is a Java application which queries the LastFM API to retrieve the current playing track.
+
+# Contact and Downloads
+NowPlaying is hosted on GitHub at http://github.com/volkerl/nowplaying.
+
+# License
+NowPlaying is licensed under the GNU General Public License, included as LICENSE.
+
+# Libraries
+It uses libraries by The Apache Foundation, licensed under the Apache License 2.0, a copy of which should be provided with this program.
+It also uses libraries from FasterXML, also licensed under the Apache License 2.0.
