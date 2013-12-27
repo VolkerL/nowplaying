@@ -37,7 +37,7 @@ To add license headers on all java files run `mvn license:update-file-header`.
 
 ## Contact, Bug Tracker and Contributions
 
-If you have any questions, remarks or bugs feel free to leave [an issue here on GitHub](https://github.com/volkerl/issues).
+If you have any questions, remarks or bugs feel free to leave [an issue here on GitHub](https://github.com/volkerl/nowplaying/issues).
 
 Contributions are very welcome. Use the standard git fork/pull-request mechanism.
 

@@ -54,11 +54,11 @@
 		<configuration>
 			<licenseName>${project.license.shorthand}</licenseName>
 			<generateBundle>true</generateBundle>
-			<outputDirectory>${project.build.sourceDirectory}</outputDirectory>
-			<bundleThirdPartyPath>META-INF/THIRD-PARTY</bundleThirdPartyPath>
-			<bundleLicensePath>META-INF/LICENSE</bundleLicensePath>
+			<outputDirectory>${basedir}</outputDirectory>
+			<bundleThirdPartyPath>src/META-INF/THIRD-PARTY</bundleThirdPartyPath>
+			<bundleLicensePath>src/META-INF/LICENSE</bundleLicensePath>
 			<thirdPartyFilename>THIRD-PARTY</thirdPartyFilename>
-			<licenseFile>${project.build.sourceDirectory}/LICENSE</licenseFile>
+			<licenseFile>${basedir}/LICENSE</licenseFile>
 			
 			<encoding>UTF-8</encoding>
 			<includes>
