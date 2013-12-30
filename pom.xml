@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>volker.streaming.music</groupId>
 	<artifactId>NowPlaying</artifactId>
-	<version>1.0</version>
+	<version>1.1</version>
   
   	<name>NowPlaying</name>
   	<description>A simple application to retrieve the song you are currently playing. Currently only LastFM is supported.</description>
