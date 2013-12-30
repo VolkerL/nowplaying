@@ -179,7 +179,7 @@ public class FormatPanel extends JPanel {
 		nullMessageField = new JTextField(config.getNoTrackMessage() == null? "" : config.getNoTrackMessage());
 		nullMessageField.getDocument().addDocumentListener(new DocumentListener() {
 			public void action() {
-				config.setFormat(nullMessageField.getText());
+				config.setNoTrackMessage(nullMessageField.getText());
 			}
 			@Override
 			public void removeUpdate(DocumentEvent e) {action();}
@@ -297,6 +297,7 @@ public class FormatPanel extends JPanel {
 	
 	// executed on EDT (called in documentlistener)
 	private void formatUpdated() {
+		config.setFormat(formatArea.getText());
 		previewField.setText(formatter.format(previewObject, formatArea.getText()));
 		highlightTags();
 	}
