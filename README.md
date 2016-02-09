@@ -74,9 +74,11 @@ Either way, as long as you start the application the same way, it will be able t
 ## Known limitations
 
 Currently we only recognize current playing tracks if [Last.fm](http://last.fm) actually marks the song as `nowplaying=true`. This, for some reason, does not happen when scrobbling from [HypeMachine](http://hypem.com).
-I'm still awaiting their response.
-Please [let me know](https://github.com/VolkerL/nowplaying/issues/1) if you have any info on this issue, or know of a HypeMachine API.
 
+HypeMachine has indicated that they have no intention of fixing this issue.
+However, I made a Chrome extension called NowPlaying - HypeMachine that will do the proper scrobbling for you.
+You can install it through the chrome store by clicking [here](https://chrome.google.com/webstore/detail/nowplaying-hypemachine/dadplfmhpmchkhbhanoeaeagojlpafab).
+Or you can check out the [code](https://github.com/volkerl/nowplaying-hypemachine) if you are interested.
 
 ## Building
 
