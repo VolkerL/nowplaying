@@ -42,11 +42,11 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
 
-import volker.streaming.music.Track;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import volker.streaming.music.Track;
 
 /**
  * Contains java calls for some of the LastFM API calls.
@@ -58,24 +58,51 @@ public class LastFmApi {
 	private static final Log LOG = LogFactory.getLog(LastFmApi.class);
 
 	private final LastFmConfig config;
-	
+
 	public LastFmApi(LastFmConfig config) {
 		this.config = config;
 		LOG.info("Created API with config:" + config.toString());
 	}
-	
+
 	public Track getNowPlaying() {
 		Track result = null;
+		JsonNode mostRecent = getLastTrackNode();
+		if (mostRecent != null && mostRecent.hasNonNull("@attr")) {
+			JsonNode attr = mostRecent.get("@attr");
+			if (attr.hasNonNull("nowplaying") && attr.get("nowplaying").asBoolean()) {
+				// mostRecent is the currently playing track
+				try {
+					result = LastFmTrackFactory.fromJson(mostRecent);
+				} catch (IllegalArgumentException e) {
+					LOG.error("JSON response contained an invalid Track.", e);
+				}
+			}
+		}
+		return result;
+	}
+
+	public Track getLastTrack() {
+		Track result = null;
+		JsonNode mostRecent = getLastTrackNode();
+		if (mostRecent != null) {
+			try {
+				result = LastFmTrackFactory.fromJson(mostRecent);
+			} catch (IllegalArgumentException e) {
+				LOG.error("JSON response contained an invalid Track.", e);
+			}
+		}
+		return result;
+	}
+
+	private JsonNode getLastTrackNode() {
+		JsonNode result = null;
 
 		// setup API url
 		URI uri = null;
 		try {
-			uri = getApiUri()
-				.addParameter("method", "user.getrecenttracks")
-				.addParameter("user", config.getUser())
-				.addParameter("api_key", config.getApiKey())
-				.addParameter("format", "json").addParameter("limit", "1")
-				.addParameter("extended", "0").build();
+			uri = getApiUri().addParameter("method", "user.getrecenttracks").addParameter("user", config.getUser())
+					.addParameter("api_key", config.getApiKey()).addParameter("format", "json")
+					.addParameter("limit", "1").addParameter("extended", "0").build();
 		} catch (URISyntaxException e) {
 			LOG.fatal("Configuration error. Invalid API url.", e);
 			return null;
@@ -117,36 +144,18 @@ public class LastFmApi {
 		}
 
 		if (root.hasNonNull("error")) {
-			LOG.error("Error returned by API: "
-				+ (root.hasNonNull("message") 
-					? root.get("message").asText()
-					: ""));
+			LOG.error("Error returned by API: " + (root.hasNonNull("message") ? root.get("message").asText() : ""));
 		} else {
 			JsonNode recentTracks = root.get("recenttracks");
 			Iterator<JsonNode> tracks;
 			if (recentTracks.hasNonNull("track")) {
-				tracks = recentTracks.get("track")
-				.elements();
+				tracks = recentTracks.get("track").elements();
 			} else {
 				// no tracks ever listened to
 				tracks = new ArrayList<JsonNode>().iterator();
 			}
 			if (tracks.hasNext()) {
-				JsonNode mostRecent = tracks.next();
-				if (mostRecent.hasNonNull("@attr")) {
-					JsonNode attr = mostRecent.get("@attr");
-					if (attr.hasNonNull("nowplaying")
-							&& attr.get("nowplaying").asBoolean()) {
-						// mostRecent is the currently playing track
-						try {
-							result = LastFmTrackFactory.fromJson(mostRecent);
-						} catch (IllegalArgumentException e) {
-							LOG.error(
-									"JSON response contained an invalid Track.",
-									e);
-						}
-					}
-				}
+				result = tracks.next();
 			}
 		}
 
@@ -174,20 +183,15 @@ public class LastFmApi {
 	 * Returns a URIBuilder for the LastFM api. You just have to add any params.
 	 */
 	private URIBuilder getApiUri() {
-		return new URIBuilder()
-			.setScheme(config.getApiScheme())
-			.setHost(config.getApiBase())
-			.setPath(config.getApiPath());
+		return new URIBuilder().setScheme(config.getApiScheme()).setHost(config.getApiBase())
+				.setPath(config.getApiPath());
 	}
 
 	// Get HttpClient with UTF8 Charset
 	private static HttpClientBuilder getClient() {
 		// use utf8 encoding as requested by Last FM
-		ConnectionConfig conConfig = ConnectionConfig.custom()
-			.setCharset(Consts.UTF_8)
-			.build();
-		return HttpClients.custom()
-			.setDefaultConnectionConfig(conConfig);
+		ConnectionConfig conConfig = ConnectionConfig.custom().setCharset(Consts.UTF_8).build();
+		return HttpClients.custom().setDefaultConnectionConfig(conConfig);
 	}
 
 	// sets some headers
